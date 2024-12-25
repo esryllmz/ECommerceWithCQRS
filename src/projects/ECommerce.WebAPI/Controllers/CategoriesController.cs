@@ -1,10 +1,13 @@
-﻿using Core.Application.Requests;
+﻿using System.Security.AccessControl;
+using Core.Application.Requests;
 using ECommerce.Application.Features.Categories.Commands.Create;
+using ECommerce.Application.Features.Categories.Commands.Delete;
 using ECommerce.Application.Features.Categories.Queries.GetById;
 using ECommerce.Application.Features.Categories.Queries.GetList;
 using ECommerce.Application.Features.Categories.Queries.GetListByPaginate;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.WebAPI.Controllers;
@@ -47,5 +50,14 @@ public class CategoriesController : BaseController
         var query = new GetByIdCategoryQuery { Id = id};
         var response = await _mediator.Send(query);
         return Ok(response);
+    }
+
+
+    [HttpDelete ("delete")]
+    public async Task<IActionResult> Delete([FromQuery] int id) 
+    {
+        var command = new DeleteCategoryCommand { Id = id };
+        await _mediator.Send(command);
+        return Ok();
     }
 }

@@ -1,6 +1,6 @@
 ﻿
 
-using Ecommerce.Persistence.Abstracts;
+using Ecommerce.Application.Services.Repositories;
 using Ecommerce.Persistence.Concretes;
 using Ecommerce.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +18,18 @@ public static class PersistenceDependenciesRegistraction
         {
             opt.UseSqlServer(configuration.GetConnectionString("SqlCon"));
         });
+        
         services.AddScoped<ICategoryRepository,CategoryRepository>();
+        services.AddScoped<IProductRepository,ProductRepository>();
+        services.AddScoped<IOrderRepository,OrderRepository>();
+        services.AddScoped<IOrderItemRepository,OrderItemRepository>();
+        services.AddScoped<IAppUserRepository, AppUserRepository>();
+        services.AddScoped<IOperationClaimRepository, OperationClaimRepository>();
+        services.AddScoped<IProductImageRepository, ProductImageRepository>();
+        services.AddScoped<IProductTagRepository, ProductTagRepository>();
+        services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
+        services.AddScoped<ITagRepository, TagRepository>();
+        services.AddScoped<IUserOperationClaimRepository, UserOperationClaimRepository>();
         
         return services;
     }

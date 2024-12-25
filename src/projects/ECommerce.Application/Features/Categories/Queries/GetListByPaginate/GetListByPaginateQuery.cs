@@ -2,8 +2,7 @@
 using AutoMapper;
 using Core.Application.Requests;
 using Core.Persistence.Extensions;
-using Ecommerce.Persistence.Abstracts;
-using ECommerce.Application.Features.Categories.Queries.GetList;
+using Ecommerce.Application.Services.Repositories;
 using MediatR;
 
 namespace ECommerce.Application.Features.Categories.Queries.GetListByPaginate;

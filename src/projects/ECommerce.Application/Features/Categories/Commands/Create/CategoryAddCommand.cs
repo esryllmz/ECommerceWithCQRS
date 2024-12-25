@@ -1,17 +1,22 @@
 ﻿using AutoMapper;
+using Core.Application.Pipelines.Login;
 using Ecommerce.Domain.Entities;
-using Ecommerce.Persistence.Abstracts;
+using ECommerce.Application.Features.Categories.Rules;
+using Ecommerce.Application.Services.Repositories;
 using MediatR;
 
 namespace ECommerce.Application.Features.Categories.Commands.Create
 {
-    public sealed class CategoryAddCommand : IRequest<CategoryAddedResponseDto>
+    public sealed class CategoryAddCommand : IRequest<CategoryAddedResponseDto>,ILoginRequest
     {
+        //Bir istek 500ms den fazla bir sürede cevap verirse sisteme log atsın.
+        //Sipariş verebilmesi için veya farklı durumlar için kullanıcının sisteme login olması beklenmektedir.
+        
         public  string Name { get; set; }
 
         public sealed class CategoryAddCommandHandler(
 
-            IMapper _mapper, ICategoryRepository _categoryRepository
+            IMapper _mapper, ICategoryRepository _categoryRepository,CategoryBusinessRules _businessRules
             
             )
 
@@ -21,6 +26,8 @@ namespace ECommerce.Application.Features.Categories.Commands.Create
             
             public async Task<CategoryAddedResponseDto> Handle(CategoryAddCommand request, CancellationToken cancellationToken)
             {
+                await _businessRules.CategoryNameMustBeUniqueAsync(request.Name, cancellationToken);
+
                 Category category = _mapper.Map<Category>(request);
 
                 Category addedCategory = await _categoryRepository.AddAsync(category);

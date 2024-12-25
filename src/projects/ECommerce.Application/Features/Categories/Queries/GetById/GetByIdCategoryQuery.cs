@@ -1,6 +1,6 @@
 ﻿
 using AutoMapper;
-using Ecommerce.Persistence.Abstracts;
+using Ecommerce.Application.Services.Repositories;
 using MediatR;
 
 namespace ECommerce.Application.Features.Categories.Queries.GetById;
@@ -22,7 +22,13 @@ public class GetByIdCategoryQuery:IRequest<GetByIdCategoryResponseDto>
 
         public async Task<GetByIdCategoryResponseDto> Handle(GetByIdCategoryQuery request, CancellationToken cancellationToken)
         {
-            var category=await _categoryRepository.GetAsync(predicate: x=> x.Id == request.Id);
+            var category=await _categoryRepository
+                .GetAsync(predicate: x=> x.Id == request.Id,
+                enableTracking:false,
+                include:false,
+                cancellationToken:cancellationToken
+                );
+
             return _mapper.Map<GetByIdCategoryResponseDto>(category);
         }
     }
