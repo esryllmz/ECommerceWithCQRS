@@ -6,6 +6,9 @@ using Core.Application.Pipelines.Authorization;
 using Core.Application.Pipelines.Login;
 using Core.Application.Pipelines.Performance;
 using Core.Application.Pipelines.Validation;
+using ECommerce.Application.Features.Auth.Rules;
+using Ecommerce.Application.Services.UserServices;
+using ECommerce.Application.Services.UserServices;
 using FluentValidation;
 using MediatR;
 
@@ -16,7 +19,9 @@ public static class AplicationServiceRegistration
 
     public static IServiceCollection AddApplicationServiceDependencies(this IServiceCollection services)
     {
+        services.AddScoped<UserBusinessRules>();
         services.AddScoped<CategoryBusinessRules>();
+        services.AddScoped<IUserService, UserService>();
 
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehavior<,>));
         

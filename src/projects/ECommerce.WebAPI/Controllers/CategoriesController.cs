@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.WebAPI.Controllers;
 
+[ApiController]
+[Route("api/[controller]")]
 public class CategoriesController : BaseController
 {
     private readonly IMediator _mediator;
