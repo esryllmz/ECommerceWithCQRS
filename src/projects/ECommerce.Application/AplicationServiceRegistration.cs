@@ -6,9 +6,13 @@ using Core.Application.Pipelines.Authorization;
 using Core.Application.Pipelines.Login;
 using Core.Application.Pipelines.Performance;
 using Core.Application.Pipelines.Validation;
+using Core.Security.JWT;
 using ECommerce.Application.Features.Auth.Rules;
+using ECommerce.Application.Features.Products.Rules;
+using ECommerce.Application.Services.RoleServices;
 using Ecommerce.Application.Services.UserServices;
 using ECommerce.Application.Services.UserServices;
+using ECommerce.Application.Services.UserWithTokenServices;
 using FluentValidation;
 using MediatR;
 
@@ -21,8 +25,12 @@ public static class AplicationServiceRegistration
     {
         services.AddScoped<UserBusinessRules>();
         services.AddScoped<CategoryBusinessRules>();
+        services.AddScoped<ProductBusinessRules>();
+        
         services.AddScoped<IUserService, UserService>();
-
+        services.AddScoped<IUserWithTokenService, UserWithTokenService>();
+        services.AddScoped<IRoleService, RoleService>();
+        
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehavior<,>));
         
         services.AddValidatorsFromAssemblies([Assembly.GetExecutingAssembly()]);

@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Core.Application.Pipelines.Login;
+using Core.Security.Constants;
 using Ecommerce.Domain.Entities;
 using ECommerce.Application.Features.Categories.Rules;
 using Ecommerce.Application.Services.Repositories;
@@ -7,13 +9,15 @@ using MediatR;
 
 namespace ECommerce.Application.Features.Categories.Commands.Create
 {
-    public sealed class CategoryAddCommand : IRequest<CategoryAddedResponseDto>,ILoginRequest
+    public sealed class CategoryAddCommand : IRequest<CategoryAddedResponseDto>, ISecuredRequest
     {
         //Bir istek 500ms den fazla bir sürede cevap verirse sisteme log atsın.
         //Sipariş verebilmesi için veya farklı durumlar için kullanıcının sisteme login olması beklenmektedir.
         
         public  string Name { get; set; }
 
+        public string[] Roles => [GeneralOperationClaims.Admin];
+        
         public sealed class CategoryAddCommandHandler(
 
             IMapper _mapper, ICategoryRepository _categoryRepository,CategoryBusinessRules _businessRules
@@ -41,6 +45,6 @@ namespace ECommerce.Application.Features.Categories.Commands.Create
         }
 
 
-
+        
     }
 }
