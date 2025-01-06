@@ -3,6 +3,7 @@ using ECommerce.Application.Features.Categories.Rules;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using Core.Application.Pipelines.Authorization;
+using Core.Application.Pipelines.Logging;
 using Core.Application.Pipelines.Login;
 using Core.Application.Pipelines.Performance;
 using Core.Application.Pipelines.Validation;
@@ -26,6 +27,8 @@ public static class AplicationServiceRegistration
         services.AddScoped<UserBusinessRules>();
         services.AddScoped<CategoryBusinessRules>();
         services.AddScoped<ProductBusinessRules>();
+
+        services.AddScoped<LoggerServiceBase, FileLogger>();
         
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IUserWithTokenService, UserWithTokenService>();
@@ -41,6 +44,7 @@ public static class AplicationServiceRegistration
             con.AddOpenBehavior(typeof(RequestValidationBehavior<,>));
             con.AddOpenBehavior(typeof(AuthorizationBehavior<,>));
             con.AddOpenBehavior(typeof(LoginBehavior<,>));
+            con.AddOpenBehavior(typeof(LoggingBehavior<,>));
 
         });
           

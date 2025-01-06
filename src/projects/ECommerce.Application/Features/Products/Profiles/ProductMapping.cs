@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ECommerce.Application.Features.Products.Commands.Create;
+using ECommerce.Application.Features.Products.Commands.Update;
 using ECommerce.Application.Features.Products.Queries.GetList;
 using Ecommerce.Domain.Entities;
 
@@ -11,6 +12,14 @@ public class ProductMapping: Profile
     {
         CreateMap<ProductAddCommand, Product>();
         CreateMap<Product, ProductAddResponseDto>();
-        CreateMap<Product, GetListProductResponseDto>();
+
+
+        CreateMap<ProductUpdateCommand, Product>();
+        CreateMap<Product, ProductUpdateResponseDto>();
+        
+
+        CreateMap<Product, GetListProductResponseDto>()
+            .ForMember(p=>p.CategoryName,
+                opt=> opt.MapFrom(x=>x.SubCategory.Name));
     }
 }
