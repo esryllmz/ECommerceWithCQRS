@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Core.Application.Pipelines.Authorization;
+using Core.Application.Pipelines.Logging;
 using Core.Application.Pipelines.Login;
 using Core.Security.Constants;
 using Ecommerce.Domain.Entities;
@@ -9,7 +10,7 @@ using MediatR;
 
 namespace ECommerce.Application.Features.Categories.Commands.Create
 {
-    public sealed class CategoryAddCommand : IRequest<CategoryAddedResponseDto>, ISecuredRequest
+    public sealed class CategoryAddCommand : IRequest<CategoryAddedResponseDto>, ILoggableRequest
     {
         //Bir istek 500ms den fazla bir sürede cevap verirse sisteme log atsın.
         //Sipariş verebilmesi için veya farklı durumlar için kullanıcının sisteme login olması beklenmektedir.
